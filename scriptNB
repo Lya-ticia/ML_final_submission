@@ -1,0 +1,46 @@
+vowel_tier = 1 
+sub_id_tier = 2
+
+clearinfo
+
+sound = selected("Sound")
+textgrid = selected("TextGrid")
+
+select 'sound'
+formant = To Formant (burg)... 0 5 5000 0.025 50
+
+printline sub_id'tab$'vowel'tab$'f1'tab$'f2'tab$'f3'tab$'
+
+#define loop end point
+select 'textgrid'
+n = Get number of intervals... vowel_tier
+
+#main loop
+
+for i from 1 to n
+  #n is simply the number of intervals present on the segment tier
+  select 'textgrid'
+  vowel_label$ = Get label of interval... vowel_tier i
+  if vowel_label$ <> ""
+    vowel_start = Get start point... vowel_tier i
+    vowel_end = Get end point... vowel_tier i
+    vowel_dur = vowel_end - vowel_start
+    vowel_mid = vowel_start + 0.5*vowel_dur
+    
+    sub_id_int = Get interval at time... sub_id_tier 'vowel_mid'
+    sub_id_label$ = Get label of interval... sub_id_tier sub_id_int
+ 
+        select 'formant'
+    f1 = Get value at time... 1 vowel_mid Hertz Linear
+    f2 = Get value at time... 2 vowel_mid Hertz Linear
+    f3 = Get value at time... 3 vowel_mid Hertz Linear
+  
+   
+
+    
+    printline 'sub_id_label$''tab$''vowel_label$''tab$''f1:3''tab$''f2:3''tab$''f3:3''tab$'
+#any variable sud be in single quotes
+  endif
+endfor
+
+
